@@ -1,0 +1,4 @@
+"C:\Program Files (x86)\Handbrake\HandBrakeCLI.exe" -i %1 -t 1 -c 1 -o "%~dpn1_.kmv"  -f mkv --deinterlace="slow" --denoise="weak" -w 352 -l 576 --crop 0:0:0:0 -e x264 -q 20 -r 25 --cfr  -a 1 -E lame -B 0 -6 stereo -R 48 -D 0 --gain=0 --audio-copy-mask none --audio-fallback ffac3 -x ref=1:weightp=1:subq=7:rc-lookahead=10:trellis=1:analyse=i4x4,i8x8:psy-rd=1.20,0.25:aq-strength=1.2:b-adapt=2:direct=auto:me=umh --verbose=1
+
+
+"C:\Program Files (x86)\MKVtoolnix\mkvmerge.exe" -o "%~dpn1_34.mkv"  "--language" "0:eng" "--default-track" "0:yes" "--forced-track" "0:no" "--aspect-ratio" "0:4/3" "--default-track" "1:yes" "--forced-track" "1:no" "-a" "1" "-d" "0" "-S" "-T" "--no-global-tags" "--no-chapters" "(" "%~dpn1_.kmv" ")" "--track-order" "0:0,0:1"
