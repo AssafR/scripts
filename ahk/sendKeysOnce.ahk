@@ -13,11 +13,11 @@ DetectHiddenWindows True
 SetTitleMatchMode 2
 SetWorkingDir A_ScriptDir
 
-if A_Args.Length < 2
+if A_Args.Length < 1
     ExitApp 43
 
 needle := A_Args[1]
-keys   := A_Args[2]
+keys := A_Args.Length >= 2 ? A_Args[2] : ""
 
 ; The old sendKeys.bat compensated for CALL doubling carets.
 keys := StrReplace(keys, "^^", "^")
