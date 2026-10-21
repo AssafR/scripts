@@ -59,7 +59,7 @@ ffmpeg ^
     -i "%INPUT%" ^
     -map 0:v:0 ^
     -map 0:a:0? ^
-    -vf "crop=iw-%CROP_LEFT%-%CROP_RIGHT%:ih-%CROP_TOP%-%CROP_BOTTOM%:%CROP_LEFT%:%CROP_TOP%,format=nv12,hwupload_cuda,bwdif_cuda=mode=send_field:parity=auto:deint=all,bilateral_cuda=window_size=5:sigmaS=2:sigmaR=25" ^
+    -vf "crop=iw-%CROP_LEFT%-%CROP_RIGHT%:ih-%CROP_TOP%-%CROP_BOTTOM%:%CROP_LEFT%:%CROP_TOP%,format=nv12,hwupload_cuda,bwdif_cuda=mode=send_field:parity=auto:deint=all,bilateral_cuda=window_size=3:sigmaS=1.5:sigmaR=15" ^
     -c:v h264_nvenc ^
     -preset p6 ^
     -tune hq ^
@@ -95,5 +95,5 @@ echo "%OUTPUT%"
 echo ============================================================
 echo.
 
-pause
+REM pause
 endlocal
