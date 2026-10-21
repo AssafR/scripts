@@ -21,10 +21,14 @@ set "CROP_TOP=0"
 set "CROP_BOTTOM=32"
 
 REM ============================================================
-REM NVENC QUALITY
+REM VIDEO QUALITY
 REM ============================================================
 
-set "CQ=21"
+REM CQ 23 is more compressed than CQ 21.
+REM If it is too aggressive, try 22.
+REM If the file is still too large, try 24.
+
+set "CQ=23"
 
 REM ============================================================
 REM OUTPUT
@@ -40,11 +44,11 @@ echo Input : "%INPUT%"
 echo Output: "%OUTPUT%"
 echo.
 echo Crop: L=%CROP_LEFT% R=%CROP_RIGHT% T=%CROP_TOP% B=%CROP_BOTTOM%
-echo Deinterlace: BWDIF CUDA, field rate / 50p
-echo Encoder: H.264 NVENC, CQ %CQ%
+echo Deinterlace: BWDIF CUDA - 50p
+echo Cleaning: Gentle bilateral CUDA
+echo Encoder: H.264 NVENC CQ %CQ%
 echo ============================================================
 echo.
-
 
 ffmpeg ^
     -hide_banner ^
@@ -52,7 +56,7 @@ ffmpeg ^
     -i "%INPUT%" ^
     -map 0:v:0 ^
     -map 0:a:0? ^
-    -vf "crop=iw-%CROP_LEFT%-%CROP_RIGHT%:ih-%CROP_TOP%-%CROP_BOTTOM%:%CROP_LEFT%:%CROP_TOP%,format=nv12,hwupload_cuda,bwdif_cuda=mode=send_field:parity=auto:deint=all" ^
+    -vf "crop=iw-%CROP_LEFT%-%CROP_RIGHT%:ih-%CROP_TOP%-%CROP_BOTTOM%:%CROP_LEFT%:%CROP_TOP%,format=nv12,hwupload_cuda,bwdif_cuda=mode=send_field:parity=auto:deint=all,bilateral_cuda=window_size=5:sigmaS=2:sigmaR=25" ^
     -c:v h264_nvenc ^
     -preset p6 ^
     -tune hq ^
@@ -69,7 +73,6 @@ ffmpeg ^
     -ar 48000 ^
     -movflags +faststart ^
     "%OUTPUT%"
-
 
 if errorlevel 1 (
     echo.
