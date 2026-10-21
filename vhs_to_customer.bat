@@ -24,10 +24,7 @@ REM ============================================================
 REM VIDEO QUALITY
 REM ============================================================
 
-REM CQ 23 is more compressed than CQ 21.
-REM If it is too aggressive, try 22.
-REM If the file is still too large, try 24.
-
+REM Higher CQ = smaller file / more compression.
 set "CQ=23"
 
 REM ============================================================
@@ -43,10 +40,16 @@ echo ============================================================
 echo Input : "%INPUT%"
 echo Output: "%OUTPUT%"
 echo.
-echo Crop: L=%CROP_LEFT% R=%CROP_RIGHT% T=%CROP_TOP% B=%CROP_BOTTOM%
-echo Deinterlace: BWDIF CUDA - 50p
-echo Cleaning: Gentle bilateral CUDA
-echo Encoder: H.264 NVENC CQ %CQ%
+echo Video:
+echo   Crop + BWDIF CUDA 50p
+echo   Gentle bilateral cleanup
+echo   H.264 NVENC CQ %CQ%
+echo.
+echo Audio:
+echo   Mono
+echo   EBU loudness normalization
+echo   -16 LUFS / -1.5 dBTP
+echo   AAC 80 kbps
 echo ============================================================
 echo.
 
@@ -68,8 +71,9 @@ ffmpeg ^
     -colorspace bt470bg ^
     -color_primaries bt470bg ^
     -color_trc bt709 ^
+    -af "aformat=channel_layouts=mono,loudnorm=I=-16:TP=-1.5:LRA=11:dual_mono=true" ^
     -c:a aac ^
-    -b:a 128k ^
+    -b:a 80k ^
     -ar 48000 ^
     -movflags +faststart ^
     "%OUTPUT%"
