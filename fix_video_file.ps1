@@ -115,8 +115,8 @@ $Settings = [ordered]@{
 
   # Verification watchdogs (seconds). If no progress or total runtime exceeds limit, abort attempt.
   VerifyNoProgressTimeoutSec = 60
-  VerifyNoProgressAfterProgressSec = 180
-  VerifyMaxRuntimeSec        = 600
+  VerifyNoProgressAfterProgressSec = 700 # 180
+  VerifyMaxRuntimeSec        = 700
 
   # Echo non-progress ffmpeg stderr lines during verification (helps debugging stalls).
   EchoVerifyStderr = $true
